@@ -1,0 +1,42 @@
+{
+  "name": "pR1",
+  "version": "1.0.0",
+  "description": "pR1 - Lightning-fast URL shortener using Cloudflare Workers for any domain",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zephrfish/pR1.git"
+  },
+  "keywords": [
+    "url-shortener",
+    "cloudflare",
+    "workers",
+    "serverless",
+    "edge-computing",
+    "kv-storage"
+  ],
+  "author": "ZephrFish",
+  "license": "CC-BY-NC-4.0",
+  "bugs": {
+    "url": "https://github.com/zephrfish/pR1/issues"
+  },
+  "homepage": "https://github.com/zephrfish/pR1#readme",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.1.0",
+    "eslint": "^8.56.0",
+    "vitest": "^1.1.0",
+    "wrangler": "^4.47.0"
+  },
+  "overrides": {
+    "esbuild": ">=0.25.0"
+  }
+}

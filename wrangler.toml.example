@@ -1,0 +1,34 @@
+name = "pR1"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Enable workers.dev subdomain for testing
+workers_dev = true
+
+# Route configuration - automatically sets up the worker route on deployment
+# IMPORTANT: Replace "example.com" with your actual domain
+routes = [
+  { pattern = "example.com/*", zone_name = "example.com" }
+]
+
+# KV Namespace for storing URL mappings
+# Run: npx wrangler kv:namespace create "URL_STORE"
+# Run: npx wrangler kv:namespace create "URL_STORE" --preview
+[[kv_namespaces]]
+binding = "URL_STORE"
+id = "your_kv_namespace_id_here"
+preview_id = "your_preview_kv_namespace_id_here"
+
+# KV Namespace for analytics (visit counts)
+# Run: npx wrangler kv:namespace create "ANALYTICS"
+# Run: npx wrangler kv:namespace create "ANALYTICS" --preview
+[[kv_namespaces]]
+binding = "ANALYTICS"
+id = "your_analytics_namespace_id_here"
+preview_id = "your_preview_analytics_namespace_id_here"
+
+# Environment variables
+# IMPORTANT: Change these values before deploying!
+[vars]
+ADMIN_PASSWORD = "change_this_secure_password"
+DOMAIN = "example.com"
