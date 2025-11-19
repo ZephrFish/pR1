@@ -1,0 +1,16 @@
+node_modules/
+.wrangler/
+dist/
+.dev.vars
+.env
+*.log
+.DS_Store
+
+# Deployed folder contains production secrets
+deployed/
+
+# Claude Code workspace files
+.claude/
+
+# Windows system files
+nul

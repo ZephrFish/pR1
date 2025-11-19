@@ -1,0 +1,109 @@
+name = "pr1"
+main = "src/index.js"
+compatibility_date = "2024-11-01"  # Updated to latest
+
+# Enable workers.dev subdomain for testing
+workers_dev = true
+
+# Import Service Worker as text
+[[rules]]
+type = "Text"
+globs = ["**/sw.js"]
+fallthrough = true
+
+# Route configuration - ensures custom domain uses latest deployment
+routes = [
+  { pattern = "r1.pe/*", zone_name = "r1.pe" }
+]
+
+# KV Namespace for storing URL mappings
+[[kv_namespaces]]
+binding = "URL_STORE"
+id = "8af4c3a8c5624063839f103337ca16f9"
+preview_id = "32af8299ecde4b6eb623485358599600"
+
+# KV Namespace for analytics (visit counts)
+[[kv_namespaces]]
+binding = "ANALYTICS"
+id = "9e837c539be14265835b6c72396038d6"
+preview_id = "f6024f46e94f4cd2850c86bb8caa3418"
+
+# Native Rate Limiting (more efficient than KV-based)
+# Auth attempts: 10 per minute
+[[ratelimits]]
+name = "RATE_LIMIT_AUTH"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+# URL creation: 20 per minute
+[[ratelimits]]
+name = "RATE_LIMIT_CREATE"
+namespace_id = "1002"
+simple = { limit = 20, period = 60 }
+
+# Redirects: 100 per minute
+[[ratelimits]]
+name = "RATE_LIMIT_REDIRECT"
+namespace_id = "1003"
+simple = { limit = 100, period = 60 }
+
+# Edit token operations: 10 per minute
+[[ratelimits]]
+name = "RATE_LIMIT_EDIT"
+namespace_id = "1004"
+simple = { limit = 10, period = 60 }
+
+# Default environment variables
+[vars]
+# SECURITY: ADMIN_PASSWORD is set via GitHub Actions secrets
+# Never commit passwords to source control
+# Password must be at least 12 characters with uppercase, lowercase, numbers, and special chars
+DOMAIN = "r1.pe"
+ALLOW_HTTP = "true"  # Allow HTTP URLs
+ALLOW_PRIVATE_IPS = "true"  # Allow private IP addresses
+
+# Development environment (local testing)
+[env.development]
+name = "pr1-dev"
+vars = { ALLOW_HTTP = "true", ALLOW_PRIVATE_IPS = "true" }
+
+# Production environment (deployed to r1.pe)
+[env.production]
+name = "pr1"
+
+[[env.production.kv_namespaces]]
+binding = "URL_STORE"
+id = "8af4c3a8c5624063839f103337ca16f9"
+
+[[env.production.kv_namespaces]]
+binding = "ANALYTICS"
+id = "9e837c539be14265835b6c72396038d6"
+
+[env.production.vars]
+# ADMIN_PASSWORD is set via `wrangler secret put ADMIN_PASSWORD --env=production`
+DOMAIN = "r1.pe"
+# SECURITY WARNING: Allowing HTTP and private IPs increases attack surface
+# These are enabled for flexibility but consider the security implications
+ALLOW_HTTP = "true"
+ALLOW_PRIVATE_IPS = "true"
+
+# Production Rate Limiting
+[[env.production.ratelimits]]
+name = "RATE_LIMIT_AUTH"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+[[env.production.ratelimits]]
+name = "RATE_LIMIT_CREATE"
+namespace_id = "1002"
+simple = { limit = 20, period = 60 }
+
+[[env.production.ratelimits]]
+name = "RATE_LIMIT_REDIRECT"
+namespace_id = "1003"
+simple = { limit = 100, period = 60 }
+
+[[env.production.ratelimits]]
+name = "RATE_LIMIT_EDIT"
+namespace_id = "1004"
+simple = { limit = 10, period = 60 }
