@@ -34,7 +34,7 @@
     "@vitest/coverage-v8": "^1.1.0",
     "eslint": "^8.56.0",
     "vitest": "^1.1.0",
-    "wrangler": "^4.47.0"
+    "wrangler": "^4.59.1"
   },
   "overrides": {
     "esbuild": ">=0.25.0"
